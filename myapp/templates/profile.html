@@ -1,0 +1,81 @@
+{% extends 'header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	
+<center>
+	<h1>Edit Profile</h1>
+	{% if msg %}
+		<b><p style="color: red;">{{msg}}</p></b>
+	{% endif %}
+	<form name="profile" method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+		{% csrf_token %}
+		<table>
+			<tr>
+				<td>First Name</td>
+				<td><input type="text" name="fname" value="{{user.fname}}"></td>
+			</tr>
+			<tr>
+				<td>Last Name</td>
+				<td><input type="text" name="lname" value="{{user.lname}}"></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><input type="text" name="email" value="{{user.email}}"></td>
+			</tr>
+			<tr>
+				<td>Mobile</td>
+				<td><input type="text" name="mobile" value="{{user.mobile}}"></td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td><textarea rows="5" cols="22" name="address">{{user.address}}</textarea></td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+				{% if user.gender == "male" %}
+				<td>
+					<input type="radio" name="gender" value="male" checked>&nbsp;&nbsp;Male
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="gender" value="female">&nbsp;&nbsp;Female
+				</td>
+				{% elif user.gender == "female" %}
+				<td>
+					<input type="radio" name="gender" value="male" checked>&nbsp;&nbsp;Male
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="gender" value="female" checked>&nbsp;&nbsp;Female
+				</td>
+				{% else %}
+				<td>
+					<input type="radio" name="gender" value="male" checked>&nbsp;&nbsp;Male
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="gender" value="female">&nbsp;&nbsp;Female
+				</td>
+				{% endif %}
+			</tr>
+			<tr>
+				<td>Current Image</td>
+				<td>
+					<img src="{{user.image.url}}" width="50px" height="50px">
+				</td>
+			</tr>
+			<tr>
+				<td>User Image</td>
+				<td><input type="file" name="image"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" name="action" value="Update Profile" class="btn btn-primary">
+				</td>
+			</tr>
+			
+		</table>
+	</form>
+</center>
+</body>
+</html>
+{% endblock %}

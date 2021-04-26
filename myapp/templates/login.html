@@ -1,0 +1,61 @@
+{% extends 'header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	<center>
+	<h1>Login</h1>
+	{% if msg %}
+		<b><p style="color: red;">{{msg}}</p></b>
+	{% endif %}
+	<form name="login" method="post" action="{% url 'login' %}">
+		{% csrf_token %}
+		<table>
+			
+			<tr>
+				<td>Email</td>
+				<td><input type="text" name="email" id="email"></td>
+				<td><span id="error_msg"></span></td>
+			</tr>
+			
+			<tr>
+				<td>Password</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			
+			<tr>
+				<td><input type="submit" name="action" value="Login" class="btn btn-primary"></td>
+				<td><a 	href="{% url 'forgot_password' %}"><input type="button" value="Forgot Password" class="btn btn-primary"></a></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					Still Not Sign Up? <a href="{% url 'signup' %}">Click Here</a> To Sign Up
+				</td>
+			</tr>
+		</table>
+	</form>
+</center>
+<script>
+	$("#email").change(function(){
+		var email=$(this).val();
+		$.ajax({
+        url: '/ajax/validate_email/',
+        data: {'email': email},
+        dataType: 'json',
+        success: function (data) {
+          if (!data.is_taken) {
+            $('#error_msg').addClass('fa fa-close').css('color', 'red');
+          }
+          else{
+          	$('#error_msg').addClass('fa fa-check').css('color', 'green');
+          }
+        }
+      });
+	});
+</script>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	
+</head>
+<body>
+	
+<center>
+	<h1>Sign Up</h1>
+	{% if msg %}
+		<b><p style="color: red;">{{msg}}</p></b>
+	{% endif %}
+	<form name="signup" method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
+		{% csrf_token %}
+		<table>
+			<tr>
+				<td>User Type</td>
+				<td>
+					<input type="radio" name="usertype" value="user">User
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="usertype" value="seller">Seller
+				</td>
+			</tr>
+			<tr>
+				<td>First Name</td>
+				<td><input type="text" name="fname"></td>
+			</tr>
+			<tr>
+				<td>Last Name</td>
+				<td><input type="text" name="lname"></td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td><input type="text" name="email" id="email"></td>
+				<td><span id="error_msg"></span></td>
+			</tr>
+			<tr>
+				<td>Mobile</td>
+				<td><input type="text" name="mobile"></td>
+			</tr>
+			<tr>
+				<td>Address</td>
+				<td><textarea rows="5" cols="22" name="address"></textarea></td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+				<td>
+					<input type="radio" name="gender" value="male">&nbsp;&nbsp;Male
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="gender" value="female">&nbsp;&nbsp;Female
+				</td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td>Confirm Password</td>
+				<td><input type="password" name="cpassword"></td>
+			</tr>
+			<tr>
+				<td>User Image</td>
+				<td><input type="file" name="image"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" name="action" value="Sign Up" class="btn btn-primary">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					Already Sign Up? <a href="{% url 'login' %}">Click Here</a> To Login
+				</td>
+			</tr>
+		</table>
+	</form>
+</center>
+<script>
+	$("#email").change(function(){
+		var email=$(this).val();
+		$.ajax({
+        url: '/ajax/validate_email_signup/',
+        data: {'email': email},
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            $('#error_msg').addClass('fa fa-close').css('color', 'red');
+          }
+          else{
+          	$('#error_msg').addClass('fa fa-check').css('color', 'green');
+          }
+        }
+      });
+	});
+</script>
+</body>
+</html>
+{% endblock %}
